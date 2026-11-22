@@ -36,7 +36,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--password", default=None)
     p.add_argument("--farm", default=topics.DEFAULT_FARM_ID, help="farm id used in the topic (default: %(default)s)")
     p.add_argument("--interval", type=float, default=2.0, help="real seconds between readings (default: %(default)s)")
-    p.add_argument("--speed", type=float, default=60.0, help="simulated seconds per real second (default: %(default)s)")
+    p.add_argument("--speed", type=float, default=300.0, help="simulated seconds per real second (default: %(default)s)")
     p.add_argument("--scenario", choices=sorted(SCENARIOS), default="normal")
     p.add_argument("--start-hour", type=float, default=7.0, help="simulated time of day to start (default: %(default)s)")
     p.add_argument("--seed", type=int, default=None, help="random seed for repeatable runs")

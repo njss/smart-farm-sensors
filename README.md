@@ -30,7 +30,7 @@ Useful options:
 
 ```bash
 python simulator.py --scenario drought            # normal | drought | heatwave | heavy_rain
-python simulator.py --speed 600                   # 1 real second = 10 farm minutes
+python simulator.py --speed 60                    # slower: 1 real second = 1 farm minute (default 300 = 5 farm minutes)
 python simulator.py --auto-irrigate 22            # pump on below 22 % soil moisture
 python simulator.py --dry-run --count 5           # no network, just print readings
 python simulator.py --broker localhost            # your own broker (e.g. Mosquitto)
