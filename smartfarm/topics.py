@@ -4,9 +4,9 @@ Keep this file identical to TOPICS.md. If you change a topic or field here,
 change it in the chatbot and the digital twin too.
 """
 
-DEFAULT_BROKER = "broker.emqx.io"   # free public broker: fine for a workshop, never for private data
+DEFAULT_BROKER = "broker.hivemq.com"   # free public broker: fine for a workshop, never for private data
 DEFAULT_TCP_PORT = 1883
-DEFAULT_WS_URL = "wss://broker.emqx.io:8084/mqtt"   # what browsers use
+DEFAULT_WS_URL = "wss://broker.hivemq.com:8884/mqtt"   # what browsers use
 DEFAULT_FARM_ID = "iringa-demo"
 ROOT = "ecocomp/smartfarm"
 

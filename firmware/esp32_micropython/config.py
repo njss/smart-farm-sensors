@@ -3,7 +3,7 @@
 WIFI_SSID = "your-wifi"
 WIFI_PASSWORD = "your-password"
 
-BROKER = "broker.emqx.io"
+BROKER = "broker.hivemq.com"
 PORT = 1883
 FARM_ID = "iringa-demo"      # each team uses its own id, e.g. "team-3"
 INTERVAL_S = 10              # seconds between readings
