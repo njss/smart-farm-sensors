@@ -21,11 +21,11 @@ import random
 from dataclasses import dataclass, field
 
 SCENARIOS = {
-    # name:        (base temp, temp swing, rain chance per hour, rain mm/h range, cloudiness)
-    "normal":     (17.0, 10.0, 0.04, (0.5, 4.0), 0.25),
-    "drought":    (20.0, 12.0, 0.00, (0.0, 0.0), 0.05),
-    "heatwave":   (24.0, 13.0, 0.00, (0.0, 0.0), 0.05),
-    "heavy_rain": (16.0, 5.0, 0.60, (6.0, 25.0), 0.80),
+    # name:        (base temp, temp swing, rain chance per hour, rain mm/h range, cloudiness, drying factor)
+    "normal":     (17.0, 10.0, 0.04, (0.5, 4.0), 0.25, 1.0),
+    "drought":    (20.0, 12.0, 0.00, (0.0, 0.0), 0.05, 3.0),
+    "heatwave":   (24.0, 13.0, 0.00, (0.0, 0.0), 0.05, 3.5),
+    "heavy_rain": (16.0, 5.0, 0.60, (6.0, 25.0), 0.80, 0.5),
 }
 
 
@@ -50,7 +50,7 @@ class FarmState:
 
     def step(self, dt_hours: float) -> None:
         """Advance the plot by ``dt_hours`` simulated hours."""
-        base_t, swing, rain_p, rain_range, cloud = SCENARIOS[self.scenario]
+        base_t, swing, rain_p, rain_range, cloud, drying = SCENARIOS[self.scenario]
         self.hour = (self.hour + dt_hours) % 24
 
         # Sun: 0 at night, 1 at solar noon (06:00 sunrise, 18:00 sunset near the equator).
@@ -79,10 +79,11 @@ class FarmState:
         # Water balance (in % VWC per hour, deliberately simplified):
         #   evapotranspiration grows with sun, heat and dry air;
         #   rain and the irrigation pump add water; drainage removes excess above field capacity.
-        # 1.1 is exaggerated (about 3x real field rates) so changes are visible during a workshop.
-        et = 1.1 * sun * (self.air_temperature / 25.0) * (1 - self.air_humidity / 110.0)
+        # Exaggerated (several times real field rates) so changes are visible during a workshop;
+        # `drying` makes drought and heatwave dry the soil faster (wind, very dry air, bare soil).
+        et = (1.1 * sun + 0.05) * drying * (self.air_temperature / 25.0) * (1 - self.air_humidity / 110.0)
         gain = 0.35 * self.rainfall + (5.0 if self.pump_on else 0.0)
-        drainage = 0.25 * max(0.0, self.soil_moisture - 40.0)
+        drainage = 0.6 * max(0.0, self.soil_moisture - 40.0)
         self.soil_moisture = clamp(self.soil_moisture + (gain - et - drainage) * dt_hours, 5.0, 58.0)
 
     def reading(self) -> dict:
