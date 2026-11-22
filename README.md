@@ -66,7 +66,7 @@ Open [`smartfarm/model.py`](smartfarm/model.py): every rule is a few lines of pl
 change in soil moisture = rain + irrigation − evapotranspiration − drainage
 ```
 
-Evapotranspiration is deliberately **about 3× faster than in a real field**, so changes are visible within a workshop session.
+**Workshop mode:** each scenario also pulls the plot towards a typical state (`TARGETS` in `model.py`), so switching to drought, heatwave or heavy rain is visible in the twin **within about 5 seconds**. While the pump is on, irrigation wins over the drought, so students can rescue the field. Real fields change far more slowly: change `REACT_PER_HOUR` to `0` to turn workshop mode off.
 
 ## 🧑🏾‍🎓 Student tasks
 
